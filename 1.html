@@ -6,8 +6,15 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="bxo"></div>
-    <script src=""></script>
-    <script></script>
+    <div id="box">{{message}}</div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#box",
+        data: {
+          message: "你好",
+        },
+      });
+    </script>
   </body>
 </html>
