@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        width: 700px;
+        height: 100px;
+        background-color: aqua;
+        margin: auto;
+      }
+      .box input {
+        width: 185px;
+        height: 26px;
+      }
+      .nei {
+        width: 600px;
+        margin: auto;
+      }
+      .a {
+        width: 80px;
+        height: 30px;
+        line-height: 30px;
+        margin-top: 5px;
+        margin-left: 190px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="box">
+        姓名:<input type="text" v-model="name" id="xing" /> 年龄:<input
+          type="text"
+          id="nian"
+          v-model="age"
+        />
+        性别:<input type="text" id="bei" v-model="sex" />
+        <button class="a" @click="addUser">添加</button>
+        <button class="a" @click="searchUser">搜索</button>
+      </div>
+      <div class="nei">
+        <table border="1" style="border-collapse: collapse">
+          <thead>
+            <tr>
+              <th width=" 150px">ID</th>
+              <th width=" 150px">名字</th>
+              <th width=" 150px">年龄</th>
+              <th width=" 150px">性别</th>
+              <th width=" 150px">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(user, index) in users" :key="user.id">
+              <td>{{ user.id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.age }}</td>
+              <td>{{ user.gender }}</td>
+              <td>
+                <button @click="showUser(user)">回显</button>
+                <button @click="deleteUser(index)">删除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="../common/vue.js"></script>
+    <script>
+      let i = 2; // 修改初始i的值，与数据一致
+      new Vue({
+        el: "#app",
+        data: {
+          name: "",
+          age: "",
+          sex: "",
+          searchValue: "",
+          users: [
+            {
+              id: 0,
+              name: "李艳阳",
+              age: 16,
+              gender: "女",
+            },
+            {
+              id: 1,
+              name: "John",
+              age: 25,
+              gender: "Male",
+            },
+          ],
+        },
+        methods: {
+          addUser() {
+            const newUser = {
+              id: i++,
+              name: this.name,
+              age: this.age,
+              gender: this.sex,
+            };
+            this.users.push(newUser);
+            this.clearInputs();
+          },
+          searchUser() {
+            if (this.searchValue === "") {
+              return this.users;
+            } else {
+              return this.users.filter((user) => {
+                return user.name.includes(this.searchValue);
+              });
+            }
+          },
+          showUser(user) {
+            this.name = user.name;
+            this.age = user.age;
+            this.sex = user.gender;
+          },
+          deleteUser(index) {
+            this.users.splice(index, 1);
+          },
+          clearInputs() {
+            this.name = "";
+            this.age = "";
+            this.sex = "";
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

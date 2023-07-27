@@ -6,17 +6,17 @@
     <title>Document</title>
   </head>
   <body>
-    111
-    <div id="app">
-      <input type="text" v-model:value="val" />
+    <div id="box">
+      <a href="www.baidu.com" @click.prevent="show">点击</a>
     </div>
-    <script src="./common/vue.js"></script>
+    <script src="../common/vue.js"></script>
     <script>
       new Vue({
-        el: "#app",
-        data: {
-          val: "ikun",
-          url: "www.baidu.com",
+        el: "#box",
+        methods: {
+          show() {
+            alert("hello");
+          },
         },
       });
     </script>

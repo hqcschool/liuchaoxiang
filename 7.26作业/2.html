@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+      }
+
+      .form-section {
+        margin-bottom: 20px;
+      }
+
+      .form-section input[type="text"] {
+        width: 150px;
+      }
+
+      .form-section button {
+        margin-left: 10px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ccc;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .action-buttons button {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <div class="form-section">
+          <label for="name">姓名:</label>
+          <input type="text" v-model="name" id="name" />
+          <label for="age">年龄:</label>
+          <input type="text" id="age" v-model="age" />
+          <label for="sex">性别:</label>
+          <input type="text" id="sex" v-model="sex" />
+          <button @click="addUser">添加</button>
+          <button @click="searchUser">搜索</button>
+        </div>
+
+        <div class="form-section">
+          <label for="search">搜索用户:</label>
+          <input type="text" v-model="searchValue" id="search" />
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th width="150px">ID</th>
+              <th width="150px">名字</th>
+              <th width="150px">年龄</th>
+              <th width="150px">性别</th>
+              <th width="150px">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(user, index) in searchUser()" :key="user.id">
+              <td>{{ user.id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.age }}</td>
+              <td>{{ user.gender }}</td>
+              <td class="action-buttons">
+                <button @click="showUser(user)">编辑</button>
+                <button @click="deleteUser(index)">删除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="../common/vue.js"></script>
+    <script>
+      let i = 2; // 修改初始i的值，与数据一致
+      new Vue({
+        el: "#app",
+        data: {
+          name: "",
+          age: "",
+          sex: "",
+          searchValue: "",
+          users: [
+            {
+              id: 0,
+              name: "李艳阳",
+              age: 16,
+              gender: "女",
+            },
+            {
+              id: 1,
+              name: "John",
+              age: 25,
+              gender: "Male",
+            },
+          ],
+        },
+        methods: {
+          addUser() {
+            const newUser = {
+              id: i++,
+              name: this.name,
+              age: this.age,
+              gender: this.sex,
+            };
+            this.users.push(newUser);
+            this.clearInputs();
+          },
+          searchUser() {
+            if (this.searchValue === "") {
+              return this.users;
+            } else {
+              return this.users.filter((user) => {
+                return user.name.includes(this.searchValue);
+              });
+            }
+          },
+          showUser(user) {
+            this.name = user.name;
+            this.age = user.age;
+            this.sex = user.gender;
+          },
+          deleteUser(index) {
+            this.users.splice(index, 1);
+          },
+          clearInputs() {
+            this.name = "";
+            this.age = "";
+            this.sex = "";
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
