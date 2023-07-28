@@ -97,6 +97,7 @@
                  ts = {
                   id:item.id,
                   img:item.img,
+                  span:item.span2,
                   p:item.p,
                   num:1
                 }
