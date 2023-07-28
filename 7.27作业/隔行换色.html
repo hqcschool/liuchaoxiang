@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #nei {
+        width: 100%;
+      }
+      td {
+        text-align: center;
+      }
+      tr:nth-child(even) {
+        background-color: lightgray;
+      }
+      tr:hover {
+        background-color: yellow;
+      }
+      .highlight {
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <div>
+        <input type="text" v-model="name" />
+        <select name="" id="">
+          <option value="">请选择一个性别</option>
+          <option value="男" selected="true">男</option>
+          <option value="女">女</option>
+        </select>
+        <input type="text" v-model="age" />
+        <button @click="addRow">添加</button><br />
+        <br />
+        <select name="" id="">
+          <option value="">请选择一个排序字段</option>
+          <option value="">编号</option>
+          <option value="">年龄</option>
+        </select>
+        <select name="" id="">
+          <option value="">请选择一个排序方式</option>
+          <option value="">升序</option>
+          <option value="">降序</option>
+        </select>
+        <button>排序</button><br />
+      </div>
+      <br />
+      <div id="nei">
+        <table border="1" style="border-collapse: collapse" width="100%">
+          <thead>
+            <tr>
+              <th>
+                全选<input
+                  type="checkbox"
+                  v-model="selectAll"
+                  @click="toggleSelectAll"
+                />
+              </th>
+              <th>编号</th>
+              <th>姓名</th>
+              <th>性别</th>
+              <th>年龄</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(item,index) in arr"
+              :key="index"
+              :class="{ 'highlight': hoverIndex === index }"
+            >
+              <td>
+                <input
+                  type="checkbox"
+                  v-model="selectAll"
+                  :checked="selectAll"
+                />
+              </td>
+              <td>{{item.id}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.age}}</td>
+              <td>{{item.sex}}</td>
+              <td>
+                <button @click="moveUp(index)" :disabled="index === 0">
+                  上移
+                </button>
+                <button
+                  v-on:click="moveDown(index)"
+                  :disabled="index === arr.length - 1"
+                >
+                  下移
+                </button>
+                <button @click="fun(index)">删除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="../common/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#box",
+        data: {
+          name: "名",
+          age: 100,
+          arr: [
+            {
+              id: 1,
+              name: "李艳阳",
+              age: 17,
+              sex: "男",
+            },
+            {
+              id: 2,
+              name: "李艳阳",
+              age: 18,
+              sex: "男",
+            },
+            {
+              id: 3,
+              name: "李艳阳",
+              age: 19,
+              sex: "男",
+            },
+          ],
+          hoverIndex: null,
+          selectAll: false,
+        },
+        methods: {
+          fun(index) {
+            console.log(index);
+            this.arr.splice(index, 1);
+          },
+          toggleSelectAll() {
+            this.selectAll = !this.selectAll;
+          },
+          moveUp(index) {
+            if (index > 0) {
+              // 交换当前行与上一行的位置
+              const temp = this.arr[index];
+              this.arr.splice(index, 1);
+              this.arr.splice(index - 1, 0, temp);
+            }
+          },
+          moveDown(index) {
+            if (index < this.arr.length - 1) {
+              // 交换当前行与下一行的位置
+              const temp = this.arr[index];
+              this.arr.splice(index, 1);
+              this.arr.splice(index + 1, 0, temp);
+            }
+          },
+          addRow() {
+            const newItem = {
+              id: this.arr.length + 1,
+              name: this.name,
+              age: this.age,
+              sex: document.querySelector("select").value,
+            };
+            this.arr.push(newItem);
+            this.name = "";
+            this.age = "";
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

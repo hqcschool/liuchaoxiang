@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="box">
+      <input type="text" v-model="name" />
+    </div>
+    <script src="../common/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#box",
+        data: {
+          name: "李艳阳",
+        },
+        watch: {
+          name: {
+            handler() {
+              console.log("李艳阳是傻逼");
+            },
+            immediate: true,
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
